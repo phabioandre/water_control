@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:watercontrol/pages/home_page.dart';
-import 'package:thingsboard_client/thingsboard_client.dart';
 import 'package:http/http.dart' as http;
 
 class ChartPage extends StatefulWidget {
