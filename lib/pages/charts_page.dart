@@ -1,14 +1,19 @@
 import 'dart:core';
 import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:watercontrol/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:watercontrol/pages/signin_page.dart';
-
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xcel;
 import 'online_Page.dart';
+import 'package:share/share.dart';
+import 'package:intl/intl.dart';
 
 class ChartPage extends StatefulWidget {
   const ChartPage({super.key});
@@ -53,8 +58,7 @@ class _ChartPageState extends State<ChartPage> {
                 icon: Icon(Icons.share),
                 tooltip: 'Compartilhar dados em Excel',
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => OnLinePage()));
+                  CompartilhaExcel(context);
                 },
               ), //IconButton
               IconButton(
@@ -196,4 +200,61 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
   }
 
   return listaValores ?? [];
+}
+
+CompartilhaExcel(BuildContext context) async {
+  final xcel.Workbook workbook = xcel.Workbook();
+  final xcel.Worksheet sheet = workbook.worksheets[0];
+  PermissionStatus result;
+
+  // result = await Permission.storage.request();
+  // if (result.isGranted) {
+// Checa se há poermissão de acesso para esse app ou não
+//    var status = await Permission.storage.status;
+//    if (!status.isGranted) {
+  // Se não tem permissão, então solicita
+  //     await Permission.storage.request();
+  //   }
+  Directory _directory = Directory("");
+  if (Platform.isAndroid) {
+    // Redireciona para diretório de Download do Android
+    _directory = Directory("/storage/emulated/0/Download");
+  } else {
+    _directory = await getApplicationDocumentsDirectory();
+  }
+  final exPath = _directory.path;
+  await Directory(exPath).create(recursive: true);
+
+  sheet.getRangeByIndex(1, 1).setText("Title");
+  sheet.getRangeByIndex(1, 2).setText("Link");
+  // for (var i = 0; i < myList.length; i++) {
+  //   final item = myList[i];
+  sheet.getRangeByIndex(2, 1).setText('1');
+  sheet.getRangeByIndex(2, 2).setText('4');
+  // }
+
+  DateTime now = DateTime.now();
+  String dataArquivo = DateFormat('yyyyMMMdd_kk-mm').format(now);
+
+  Directory tempDir = await getTemporaryDirectory();
+  String tempPath = tempDir.path;
+
+  final List<int> bytes = workbook.saveAsStream();
+  File file = File('$tempPath/WC_$dataArquivo.xlsx');
+  file.writeAsBytesSync(bytes);
+  workbook.dispose();
+  Share.shareFiles(['$tempPath/WC_$dataArquivo.xlsx'], text: 'Medições');
+
+  /* } else {
+    QuickAlert.show(
+      context: context,
+      confirmBtnText: 'Ok',
+      // backgroundColor: Colors.blue,
+      type: QuickAlertType.error,
+      barrierColor: Colors.blue,
+      title: 'Falha de permissão',
+      text:
+          'Operação não pode ser realizada. Necessário permissão de acesso ao armazenamento interno do dispositivo.',
+    );
+  }*/
 }
