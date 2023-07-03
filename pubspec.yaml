@@ -48,6 +48,7 @@ dependencies:
   open_file: ^3.3.2
   share: ^2.0.4
   intl: ^0.18.1
+  web_socket_channel: ^2.4.0  
 
 dev_dependencies:
   flutter_test:

@@ -2,10 +2,8 @@ import 'dart:core';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +28,11 @@ class ChartData {
 
 class _ChartPageState extends State<ChartPage> {
   @override
+  void dispose() {
+    // fecha websocket
+    super.dispose();
+  }
+
   List<ChartData> chartDataOxigenio = [];
   List<ChartData> chartDataph = [];
   List<ChartData> chartDataTemperatura = [];
@@ -55,7 +58,10 @@ class _ChartPageState extends State<ChartPage> {
             title: const Text("Water Control"),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.share),
+                icon: Icon(
+                  Icons.share,
+                  //color: Colors.red,
+                ),
                 tooltip: 'Compartilhar dados em Excel',
                 onPressed: () {
                   CompartilhaExcel(context, chartDataOxigenio, chartDataph,
@@ -63,7 +69,10 @@ class _ChartPageState extends State<ChartPage> {
                 },
               ), //IconButton
               IconButton(
-                icon: Icon(Icons.online_prediction),
+                icon: Icon(
+                  Icons.online_prediction,
+                  //color: Colors.greenAccent,
+                ),
                 tooltip: 'Dados em Tempo Real',
                 onPressed: () {
                   Navigator.push(context,
@@ -183,7 +192,7 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
 
     var lista = (listaPontos[serieDeDados]) as List;
     lista.forEach((elemento) {
-      print(elemento);
+      // print(elemento);
       var temp = new ChartData(
           DateTime.fromMillisecondsSinceEpoch(elemento['ts']),
           double.parse(elemento['value']));

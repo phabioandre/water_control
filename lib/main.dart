@@ -1,11 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:watercontrol/pages/signin_page.dart';
 
+import 'services/firebase.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+  // iniciliza Firebase
+  FirebaseAutenticacao.inicializa();
+  // inicializa sharedPreferences
+  //final preferenciasUsuario = await SharedPreferences.getInstance();
+  // inicializa aplicação
+  runApp(MyApp(
+      //preferences: preferenciasUsuario,
+      ));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,6 +34,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/*
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -114,3 +122,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/

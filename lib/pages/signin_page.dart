@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:watercontrol/pages/home_page.dart';
+
+import '../services/preferencias.dart';
+import '../services/firebase.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({super.key});
@@ -14,6 +16,17 @@ class _SigninPagetState extends State<SigninPage> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   String texto = '';
+
+  @override
+  void initState() {
+    super.initState();
+    Future.wait([DadosUsuario.isFirebaseConnected()]).then((value) {
+      if (value[0]) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +60,15 @@ class _SigninPagetState extends State<SigninPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                signInSignOutButton(context, true, () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
+                signInSignOutButton(context, true, () async {
+                  if (await FirebaseAutenticacao.login(
+                      _emailTextController.text,
+                      _passwordTextController.text)) {
+                    // Login realizado com Sucesso, salva no SharedPreferences
+                    DadosUsuario.setFirebaseConnected(true);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => HomePage()));
-                  }).onError((error, stackTrace) {
+                  } else {
                     QuickAlert.show(
                       context: context,
                       confirmBtnText: 'Ok',
@@ -67,7 +80,7 @@ class _SigninPagetState extends State<SigninPage> {
                       text:
                           'Verifique dados de usuário/senha. Se problema, persistir entre em contato com Administrador.',
                     );
-                  });
+                  }
                 }),
               ],
             ),
