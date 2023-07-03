@@ -58,7 +58,8 @@ class _ChartPageState extends State<ChartPage> {
                 icon: Icon(Icons.share),
                 tooltip: 'Compartilhar dados em Excel',
                 onPressed: () {
-                  CompartilhaExcel(context);
+                  CompartilhaExcel(context, chartDataOxigenio, chartDataph,
+                      chartDataTemperatura);
                 },
               ), //IconButton
               IconButton(
@@ -141,15 +142,6 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
   List<ChartData> listaValores = [];
   var temp = new ChartData(DateTime.now(), 0);
 
-/*  List<ChartData> dados = [
-    ChartData(DateTime.fromMillisecondsSinceEpoch(1654822118613), 6),
-    ChartData(DateTime.fromMillisecondsSinceEpoch(1654822148613), 11),
-    ChartData(DateTime.fromMillisecondsSinceEpoch(1654822168613), 9),
-    ChartData(DateTime.fromMillisecondsSinceEpoch(1654822188613), 14),
-    ChartData(DateTime.fromMillisecondsSinceEpoch(1654822198613), 10),
-  ];
-*/
-
   // recupera token do usuario
   SharedPreferences sharedPreference = await SharedPreferences.getInstance();
   var tokenUsuarioTB = await sharedPreference.getString('token');
@@ -202,36 +194,42 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
   return listaValores ?? [];
 }
 
-CompartilhaExcel(BuildContext context) async {
-  final xcel.Workbook workbook = xcel.Workbook();
-  final xcel.Worksheet sheet = workbook.worksheets[0];
-  PermissionStatus result;
+CompartilhaExcel(BuildContext context, dadoOD, dadoPh, dadoTemp) async {
+  final xcel.Workbook workbook = xcel.Workbook(3);
+  final xcel.Worksheet sheetOD = workbook.worksheets[0];
+  final xcel.Worksheet sheetPh = workbook.worksheets[1];
+  final xcel.Worksheet sheetTemp = workbook.worksheets[2];
 
-  // result = await Permission.storage.request();
-  // if (result.isGranted) {
-// Checa se há poermissão de acesso para esse app ou não
-//    var status = await Permission.storage.status;
-//    if (!status.isGranted) {
-  // Se não tem permissão, então solicita
-  //     await Permission.storage.request();
-  //   }
-  Directory _directory = Directory("");
-  if (Platform.isAndroid) {
-    // Redireciona para diretório de Download do Android
-    _directory = Directory("/storage/emulated/0/Download");
-  } else {
-    _directory = await getApplicationDocumentsDirectory();
-  }
-  final exPath = _directory.path;
-  await Directory(exPath).create(recursive: true);
+  sheetOD.name = 'OD';
+  sheetPh.name = 'Ph';
+  sheetTemp.name = 'Temperatura';
 
-  sheet.getRangeByIndex(1, 1).setText("Title");
-  sheet.getRangeByIndex(1, 2).setText("Link");
-  // for (var i = 0; i < myList.length; i++) {
-  //   final item = myList[i];
-  sheet.getRangeByIndex(2, 1).setText('1');
-  sheet.getRangeByIndex(2, 2).setText('4');
-  // }
+  int i = 1;
+  sheetOD.getRangeByIndex(i, 1).setText("Timestamp");
+  sheetOD.getRangeByIndex(i, 2).setText("Valor");
+  dadoOD.forEach((elemento) {
+    i++;
+    sheetOD.getRangeByIndex(i, 1).setDateTime(elemento.x);
+    sheetOD.getRangeByIndex(i, 2).setNumber(elemento.y);
+  });
+
+  i = 1;
+  sheetPh.getRangeByIndex(i, 1).setText("Timestamp");
+  sheetPh.getRangeByIndex(i, 2).setText("Valor");
+  dadoPh.forEach((elemento) {
+    i++;
+    sheetPh.getRangeByIndex(i, 1).setDateTime(elemento.x);
+    sheetPh.getRangeByIndex(i, 2).setNumber(elemento.y);
+  });
+
+  i = 1;
+  sheetTemp.getRangeByIndex(i, 1).setText("Timestamp");
+  sheetTemp.getRangeByIndex(i, 2).setText("Valor");
+  dadoTemp.forEach((elemento) {
+    i++;
+    sheetTemp.getRangeByIndex(i, 1).setDateTime(elemento.x);
+    sheetTemp.getRangeByIndex(i, 2).setNumber(elemento.y);
+  });
 
   DateTime now = DateTime.now();
   String dataArquivo = DateFormat('yyyyMMMdd_kk-mm').format(now);
@@ -244,17 +242,4 @@ CompartilhaExcel(BuildContext context) async {
   file.writeAsBytesSync(bytes);
   workbook.dispose();
   Share.shareFiles(['$tempPath/WC_$dataArquivo.xlsx'], text: 'Medições');
-
-  /* } else {
-    QuickAlert.show(
-      context: context,
-      confirmBtnText: 'Ok',
-      // backgroundColor: Colors.blue,
-      type: QuickAlertType.error,
-      barrierColor: Colors.blue,
-      title: 'Falha de permissão',
-      text:
-          'Operação não pode ser realizada. Necessário permissão de acesso ao armazenamento interno do dispositivo.',
-    );
-  }*/
 }
