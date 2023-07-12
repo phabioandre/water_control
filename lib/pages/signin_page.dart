@@ -13,8 +13,8 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPagetState extends State<SigninPage> {
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
   String texto = '';
 
   @override
@@ -23,7 +23,7 @@ class _SigninPagetState extends State<SigninPage> {
     Future.wait([DadosUsuario.isFirebaseConnected()]).then((value) {
       if (value[0]) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
     });
   }
@@ -66,9 +66,13 @@ class _SigninPagetState extends State<SigninPage> {
                       _passwordTextController.text)) {
                     // Login realizado com Sucesso, salva no SharedPreferences
                     DadosUsuario.setFirebaseConnected(true);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
                   } else {
+                    // ignore: use_build_context_synchronously
                     QuickAlert.show(
                       context: context,
                       confirmBtnText: 'Ok',
@@ -140,11 +144,6 @@ Container signInSignOutButton(
       onPressed: () {
         onTap();
       },
-      child: Text(isLogin ? 'LOG IN' : 'SIGN UP',
-          style: const TextStyle(
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
-              fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.pressed)) {
@@ -155,6 +154,11 @@ Container signInSignOutButton(
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
       ),
+      child: Text(isLogin ? 'Entrar' : 'SIGN UP',
+          style: const TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 16)),
     ),
   );
 }

@@ -25,7 +25,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Water Control"),
+          title: const Text("Water Control",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           actions: <Widget>[
             IconButton(
               icon: const Icon(
@@ -36,13 +37,17 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {},
             ), //IconButton
             IconButton(
-              icon: const Icon(
-                Icons.broadcast_on_personal,
-                //color: Colors.greenAccent,
-              ),
-              tooltip: 'Dados em Tempo Real',
-              onPressed: () {},
-            ), //IconButton
+                icon: const Icon(
+                  Icons.broadcast_on_personal,
+                  //color: Colors.greenAccent,
+                ),
+                tooltip: 'Dados em Tempo Real',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OnLinePage()));
+                }), //IconButton
             IconButton(
               icon: Icon(Icons.logout),
               tooltip: 'Realizar Logout',
@@ -89,8 +94,10 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ChartPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChartPage()));
                   },
                 ),
                 const SizedBox(

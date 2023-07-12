@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:watercontrol/pages/signin_page.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xcel;
 import '../services/preferencias.dart';
+import 'home_page.dart';
 import 'online_Page.dart';
 import 'package:share/share.dart';
 import 'package:intl/intl.dart';
@@ -50,15 +51,25 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   Widget build(BuildContext context) {
-    // List<ChartData> chartData = recebeDados();
-    //  List<ChartData> chartData = futureChartData as List<ChartData>;
-
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Water Control"),
+            title: const Text("Water Control",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             actions: <Widget>[
               IconButton(
-                icon: Icon(
+                  icon: const Icon(
+                    Icons.home_filled,
+                    //color: Colors.red,
+                  ),
+                  tooltip: 'Ir para Home',
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                  }), //IconButton
+              IconButton(
+                icon: const Icon(
                   Icons.share,
                   //color: Colors.red,
                 ),
@@ -69,18 +80,20 @@ class _ChartPageState extends State<ChartPage> {
                 },
               ), //IconButton
               IconButton(
-                icon: Icon(
-                  Icons.online_prediction,
+                icon: const Icon(
+                  Icons.broadcast_on_personal,
                   //color: Colors.greenAccent,
                 ),
                 tooltip: 'Dados em Tempo Real',
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => OnLinePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OnLinePage()));
                 },
               ), //IconButton
               IconButton(
-                icon: Icon(Icons.logout),
+                icon: const Icon(Icons.logout),
                 tooltip: 'Realizar Logout',
                 onPressed: () {
                   FirebaseAuth.instance.signOut().then((value) =>
@@ -136,10 +149,7 @@ SfCartesianChart graficoDeLinha(List<ChartData> dados, String tituloDoGrafico,
 }
 
 Future<List<ChartData>> recebeDados(String serieDeDados) async {
-  String? stringTemp = '';
-
   List<ChartData> listaValores = [];
-  var temp = new ChartData(DateTime.now(), 0);
 
   // recupera token do usuario
   // ignore: prefer_interpolation_to_compose_strings
@@ -154,9 +164,9 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
   String endTs = termino.toString();
 
   final parametros = {
-    'keys': '$serieDeDados',
-    'endTs': '$startTs',
-    'startTs': '$endTs',
+    'keys': serieDeDados,
+    'endTs': startTs,
+    'startTs': endTs,
     'limit': '10000',
     'interval': '300000',
     'agg': 'AVG',
@@ -180,18 +190,19 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
     var listaPontos = json.decode(resposta.body);
 
     var lista = (listaPontos[serieDeDados]) as List;
-    lista.forEach((elemento) {
+    for (int i = 0; i < lista.length; i++) {
+      var elemento = lista[i];
       // print(elemento);
-      var temp = new ChartData(
-          DateTime.fromMillisecondsSinceEpoch(elemento['ts']),
+      var temp = ChartData(DateTime.fromMillisecondsSinceEpoch(elemento['ts']),
           double.parse(elemento['value']));
       listaValores.add(temp);
-    });
+    }
   }
 
-  return listaValores ?? [];
+  return listaValores;
 }
 
+// ignore: non_constant_identifier_names
 CompartilhaExcel(BuildContext context, dadoOD, dadoPh, dadoTemp) async {
   final xcel.Workbook workbook = xcel.Workbook(3);
   final xcel.Worksheet sheetOD = workbook.worksheets[0];

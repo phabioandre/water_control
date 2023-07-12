@@ -1,16 +1,21 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
+import 'package:watercontrol/pages/signin_page.dart';
 import 'package:watercontrol/services/preferencias.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import 'charts_page.dart';
 import 'home_page.dart';
 
-double _value = 23.7;
+double _valueOxigenio = 0;
+double _valuePh = 0;
+double _valueTemperatura = 0;
 
 class OnLinePage extends StatefulWidget {
   const OnLinePage({super.key});
@@ -61,10 +66,19 @@ class _OnLinePageState extends State<OnLinePage> {
     /// Listen for all incoming data
     channel.stream.listen((data) {
       var jsonData = json.decode(data);
-      print(jsonData["data"]['oxigenio'][0][1] + '\n');
-      setState(() {
-        _value = double.parse(jsonData["data"]['oxigenio'][0][1]);
-      });
+
+      if (_valueOxigenio != double.parse(jsonData["data"]['oxigenio'][0][1]) ||
+          _valuePh != double.parse(jsonData["data"]['ph'][0][1]) ||
+          _valueTemperatura !=
+              double.parse(jsonData["data"]['temperatura'][0][1])) {
+        setState(() {
+          _valueOxigenio = double.parse(jsonData["data"]['oxigenio'][0][1]);
+          _valuePh = double.parse(jsonData["data"]['ph'][0][1]);
+          _valueTemperatura =
+              double.parse(jsonData["data"]['temperatura'][0][1]);
+          Vibration.vibrate(duration: 500);
+        });
+      }
     }, onError: (error) {
       channel.sink.close();
       QuickAlert.show(
@@ -89,65 +103,165 @@ class _OnLinePageState extends State<OnLinePage> {
   Widget build(BuildContext context) {
     criaWebSocket();
     return Scaffold(
-        appBar: AppBar(
-            title: const Text("Water Control"),
-            backgroundColor: Colors.lightBlue),
-        // drawer: const Drawer(),
-        body: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-              SfRadialGauge(
-                  title: GaugeTitle(
-                      text: 'Oxigênio Dissolvido',
-                      textStyle: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold)),
-                  enableLoadingAnimation: true,
-                  animationDuration: 4500,
-                  axes: <RadialAxis>[
-                    RadialAxis(
-                        showTicks: true,
-                        minimum: 0,
-                        maximum: 14,
-                        labelOffset: 10,
-                        radiusFactor: 0.7,
-                        ranges: <GaugeRange>[
-                          GaugeRange(
-                              startValue: 0,
-                              endValue: 6,
-                              color: Color.fromARGB(255, 255, 220, 220)),
-                          GaugeRange(
-                              startValue: 6,
-                              endValue: 8,
-                              color: Colors.lightBlue),
-                          GaugeRange(
-                              startValue: 8,
-                              endValue: 14,
-                              color: Color.fromARGB(255, 220, 255, 220))
-                        ],
-                        pointers: <GaugePointer>[
-                          NeedlePointer(
-                            value: _value,
-                            enableAnimation: true,
-                            animationType: AnimationType.easeOutBack,
-                            needleLength: 0.9,
-                            needleStartWidth: 1,
-                            needleEndWidth: 5,
-                            // needleColor: Colors.blue,
-                          )
-                        ],
-                        annotations: <GaugeAnnotation>[
-                          GaugeAnnotation(
-                              widget: Container(
-                                  child: Text(_value.toString() + ' (mg/L)',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold))),
-                              angle: 90,
-                              positionFactor: 0.5)
-                        ]),
-                  ]),
-            ])));
+      appBar: AppBar(
+          title: const Text("Water Control",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          actions: <Widget>[
+            IconButton(
+                icon: const Icon(
+                  Icons.home_filled,
+                  //color: Colors.red,
+                ),
+                tooltip: 'Ir para Home',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()));
+                }), //IconButton
+            const IconButton(
+              icon: Icon(
+                Icons.share,
+                //color: Colors.red,
+              ),
+              tooltip: 'Compartilhar dados em Excel',
+              onPressed: null,
+            ), //IconButton
+            IconButton(
+              icon: const Icon(
+                Icons.history,
+                //color: Colors.greenAccent,
+              ),
+              tooltip: 'Dados Históricos',
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const ChartPage()));
+              },
+            ), //IconButton
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: 'Realizar Logout',
+              onPressed: () {
+                FirebaseAuth.instance.signOut().then((value) => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninPage())));
+              },
+            ), //IconButton
+          ], //<Widget>[]
+          backgroundColor: Colors.lightBlue),
+      // drawer: const Drawer(),
+      body: SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'Oxigênio Dissolvido',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 15, 66, 107)),
+              ),
+              makeDashboardItem('Oxigênio Dissolvido', _valueOxigenio, 'mg/L',
+                  0, 14, 6, 8, 2),
+              const Text(
+                'Temperatura',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 15, 66, 107)),
+              ),
+              makeDashboardItem(
+                  'Temperatura', _valueTemperatura, '°C', 0, 50, 20, 30, 5),
+              const Text(
+                'Ph',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 15, 66, 107)),
+              ),
+              makeDashboardItem('Ph', _valuePh, '', 0, 14, 6, 8, 2),
+            ]),
+      ),
+    );
   }
+}
+
+Card makeDashboardItem(
+    String titulo,
+    double valorMedido,
+    String unidadeMedida,
+    double vMin,
+    double vMax,
+    double idealMin,
+    double idealMax,
+    double intervalo) {
+  return Card(
+    elevation: 1.0,
+    margin: EdgeInsets.fromLTRB(30, 5, 30, 5),
+    child: Container(
+      decoration: const BoxDecoration(color: Color.fromRGBO(243, 246, 250, 1)),
+      // height: 400,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        heightFactor: 0.60,
+        child: SfRadialGauge(
+            //  title: GaugeTitle(
+            //      text: titulo,
+            //      textStyle: const TextStyle(
+            //          fontSize: 10.0, fontWeight: FontWeight.bold)),
+            enableLoadingAnimation: true,
+            animationDuration: 4500,
+            axes: <RadialAxis>[
+              RadialAxis(
+                  showTicks: true,
+                  showLastLabel: true,
+                  interval: intervalo,
+                  startAngle: 180,
+                  endAngle: 0,
+                  minimum: vMin,
+                  maximum: vMax,
+                  labelOffset: 8,
+                  radiusFactor: 0.5,
+                  canScaleToFit: true,
+                  ranges: <GaugeRange>[
+                    GaugeRange(
+                        startValue: vMin,
+                        endValue: idealMin,
+                        color: Color.fromARGB(255, 255, 220, 220)),
+                    GaugeRange(
+                        startValue: idealMin,
+                        endValue: idealMax,
+                        color: Colors.lightBlue),
+                    GaugeRange(
+                        startValue: idealMax,
+                        endValue: vMax,
+                        color: Color.fromARGB(255, 220, 255, 220))
+                  ],
+                  pointers: <GaugePointer>[
+                    NeedlePointer(
+                      value: valorMedido,
+                      enableAnimation: true,
+                      animationType: AnimationType.easeOutBack,
+                      needleLength: 0.95,
+                      needleStartWidth: 1,
+                      needleEndWidth: 5,
+                      // needleColor: Colors.blue,
+                    )
+                  ],
+                  annotations: <GaugeAnnotation>[
+                    GaugeAnnotation(
+                        widget: Container(
+                            child: Text('$valorMedido $unidadeMedida',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                        angle: 90,
+                        positionFactor: 0.5)
+                  ]),
+            ]),
+      ),
+    ),
+  );
 }
