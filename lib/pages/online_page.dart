@@ -110,12 +110,13 @@ class _OnLinePageState extends State<OnLinePage> {
                         showTicks: true,
                         minimum: 0,
                         maximum: 14,
+                        labelOffset: 10,
                         radiusFactor: 0.7,
                         ranges: <GaugeRange>[
                           GaugeRange(
                               startValue: 0,
                               endValue: 6,
-                              color: Color.fromARGB(174, 247, 41, 41)),
+                              color: Color.fromARGB(255, 255, 220, 220)),
                           GaugeRange(
                               startValue: 6,
                               endValue: 8,
@@ -123,7 +124,7 @@ class _OnLinePageState extends State<OnLinePage> {
                           GaugeRange(
                               startValue: 8,
                               endValue: 14,
-                              color: Color.fromARGB(109, 54, 244, 139))
+                              color: Color.fromARGB(255, 220, 255, 220))
                         ],
                         pointers: <GaugePointer>[
                           NeedlePointer(
@@ -131,6 +132,9 @@ class _OnLinePageState extends State<OnLinePage> {
                             enableAnimation: true,
                             animationType: AnimationType.easeOutBack,
                             needleLength: 0.9,
+                            needleStartWidth: 1,
+                            needleEndWidth: 5,
+                            // needleColor: Colors.blue,
                           )
                         ],
                         annotations: <GaugeAnnotation>[

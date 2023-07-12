@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
 import 'package:watercontrol/pages/signin_page.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xcel;
+import '../services/preferencias.dart';
 import 'online_Page.dart';
 import 'package:share/share.dart';
 import 'package:intl/intl.dart';
@@ -92,7 +92,6 @@ class _ChartPageState extends State<ChartPage> {
               ), //IconButton
             ], //<Widget>[]
             backgroundColor: Colors.lightBlue),
-
         // drawer: const Drawer(),
         body: SingleChildScrollView(
           //width: MediaQuery.of(context).size.width,
@@ -112,15 +111,6 @@ class _ChartPageState extends State<ChartPage> {
                 '°C', 0.0, 50.0),
           ]),
         ));
-  }
-}
-
-Future<bool> verificaToken() async {
-  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-  if (sharedPreference.getString('token') != null) {
-    return true;
-  } else {
-    return false;
   }
 }
 
@@ -152,10 +142,9 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
   var temp = new ChartData(DateTime.now(), 0);
 
   // recupera token do usuario
-  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
-  var tokenUsuarioTB = await sharedPreference.getString('token');
-  final tokenDispositivoTB = '468d9270-f82e-11ec-bf91-e96cef9e8ef0';
-  //final tokenDispositivoTB = 'QPaNdUeOLmALlsTakBKD';
+  // ignore: prefer_interpolation_to_compose_strings
+  var tokenUsuarioTB = 'Bearer ' + await DadosUsuario.getUserTBToken();
+  var tokenDispositivoTB = await DadosUsuario.getDeviceTBToken();
 
   int inicio = DateTime.now()
       .millisecondsSinceEpoch; // - Duration(hours: 3).inMilliseconds;

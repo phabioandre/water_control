@@ -24,6 +24,13 @@ class DadosUsuario {
     return preferenciasUsuario.getString('userTBToken') ?? '';
   }
 
+  // lê o valor de token do usuário no Thingsboard
+  static Future<String> getDeviceTBToken() async {
+    var preferenciasUsuario = await SharedPreferences.getInstance();
+    return preferenciasUsuario.getString('deviceTBToken') ??
+        '468d9270-f82e-11ec-bf91-e96cef9e8ef0';
+  }
+
 // lê indicação de conectado do usuário no Firebase
   static Future<bool> isTBConnected() async {
     var preferenciasUsuario = await SharedPreferences.getInstance();

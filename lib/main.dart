@@ -10,7 +10,7 @@ void main() async {
   // inicializa sharedPreferences
   //final preferenciasUsuario = await SharedPreferences.getInstance();
   // inicializa aplicação
-  runApp(MyApp(
+  runApp(const MyApp(
       //preferences: preferenciasUsuario,
       ));
 }
@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Water Control',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 3, 22, 131)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 3, 22, 131)),
         useMaterial3: true,
       ),
       home: const SigninPage(),
