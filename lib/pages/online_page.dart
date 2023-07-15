@@ -53,7 +53,7 @@ class _OnLinePageState extends State<OnLinePage> {
       'tsSubCmds': [
         {
           'entityType': "DEVICE",
-          'entityId': '$tokenDispositivoTB',
+          'entityId': tokenDispositivoTB,
           'scope': "LATEST_TELEMETRY",
           'timeWindow': '30000',
           'cmdId': '1',
@@ -93,8 +93,8 @@ class _OnLinePageState extends State<OnLinePage> {
           text:
               'Perda de conexão com o servidor. Verifique sua internet ou entre em contato com o Administrador do serviço.',
           onConfirmBtnTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
           });
     });
   }
@@ -144,7 +144,8 @@ class _OnLinePageState extends State<OnLinePage> {
               onPressed: () {
                 FirebaseAuth.instance.signOut().then((value) => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SigninPage())));
+                    MaterialPageRoute(
+                        builder: (context) => const SigninPage())));
               },
             ), //IconButton
           ], //<Widget>[]
@@ -198,7 +199,7 @@ Card makeDashboardItem(
     double intervalo) {
   return Card(
     elevation: 1.0,
-    margin: EdgeInsets.fromLTRB(30, 5, 30, 5),
+    margin: const EdgeInsets.fromLTRB(30, 5, 30, 5),
     child: Container(
       decoration: const BoxDecoration(color: Color.fromRGBO(243, 246, 250, 1)),
       // height: 400,
@@ -228,7 +229,7 @@ Card makeDashboardItem(
                     GaugeRange(
                         startValue: vMin,
                         endValue: idealMin,
-                        color: Color.fromARGB(255, 255, 220, 220)),
+                        color: const Color.fromARGB(255, 255, 220, 220)),
                     GaugeRange(
                         startValue: idealMin,
                         endValue: idealMax,
@@ -236,7 +237,7 @@ Card makeDashboardItem(
                     GaugeRange(
                         startValue: idealMax,
                         endValue: vMax,
-                        color: Color.fromARGB(255, 220, 255, 220))
+                        color: const Color.fromARGB(255, 220, 255, 220))
                   ],
                   pointers: <GaugePointer>[
                     NeedlePointer(
@@ -251,12 +252,11 @@ Card makeDashboardItem(
                   ],
                   annotations: <GaugeAnnotation>[
                     GaugeAnnotation(
-                        widget: Container(
-                            child: Text('$valorMedido $unidadeMedida',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ))),
+                        widget: Text('$valorMedido $unidadeMedida',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            )),
                         angle: 90,
                         positionFactor: 0.5)
                   ]),

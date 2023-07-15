@@ -50,6 +50,7 @@ class _ChartPageState extends State<ChartPage> {
         }));
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -100,7 +101,7 @@ class _ChartPageState extends State<ChartPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SigninPage())));
+                              builder: (context) => const SigninPage())));
                 },
               ), //IconButton
             ], //<Widget>[]

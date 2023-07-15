@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => const OnLinePage()));
                 }), //IconButton
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               tooltip: 'Realizar Logout',
               onPressed: () async {
                 if (await FirebaseAutenticacao.logout()) {
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(200, 200),
+                    minimumSize: const Size(200, 200),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 20.0),
                     shape: RoundedRectangleBorder(
@@ -105,9 +105,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(200, 200),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    minimumSize: const Size(200, 200),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 20.0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
@@ -122,8 +122,10 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => OnLinePage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const OnLinePage()));
                   },
                 ),
                 const SizedBox(
@@ -131,9 +133,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(200, 200),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    minimumSize: const Size(200, 200),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 20.0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
