@@ -19,6 +19,7 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 
 
 ## Fluxo de navegação de telas
+Abaixo segue fluxo de navegação entre telas do App:
 <img src='https://github.com/phabioandre/water_control/blob/main/assets/images/Navega%C3%A7%C3%A3o%20entre%20telas.png'>
 
 ## Tecnologias utilizadas
