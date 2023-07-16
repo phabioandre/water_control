@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:aquacontrol/services/firebase.dart';
 
 import 'preferencias.dart';
 import 'package:http/http.dart' as http;
@@ -65,8 +64,8 @@ class BeWeatherPlataform {
     };
     // Payload da requisição de Autenticação
     final msg = jsonEncode({
-      "username": "$DBFirestore.getBWUser()",
-      "password": "$DBFirestore.getBWUser()"
+      "username": "ufrpe.mctic.iot.turismo@gmail.com",
+      "password": "Ufrpe@iot21"
     });
 
     try {

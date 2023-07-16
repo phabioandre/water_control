@@ -22,7 +22,7 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 Abaixo segue fluxo de navegação entre telas do App:
 <img src='https://github.com/phabioandre/water_control/blob/main/assets/images/Navega%C3%A7%C3%A3o%20entre%20telas.png'>
 
-## Árvore de Widgets
+## Árvore de Widgets de cada tela
 
 - SignInPage:
 <img src='https://github.com/phabioandre/water_control/blob/main/assets/images/SignInPage_widgets.png'>
@@ -30,11 +30,20 @@ Abaixo segue fluxo de navegação entre telas do App:
 - HomePage:
 <img src='https://github.com/phabioandre/water_control/blob/main/assets/images/HomePage_widgets.png'>
 
+- OnlinePage:
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/OnLinePage_widgets.png'>
+
+- BeWeatherPage:
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/BeWeatherPage_widgets.png'>
+
+- ChartPage:
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/ChartPage_widgets.png'>
+
 ## Tecnologias utilizadas
 - [Flutter ](https://flutter.dev/) Framework para criação do Aplicativo para plataforma Android
 - [Dart](https://dart.dev/) Linguagem de Programação utilizada para desenvolvimento do App
 - [ThingsBoard](https://thingsboard.io/) Plataforma para dispositivos IOT;
 - [Be Weather](https://beweather.b2ktech.com.br/) Plataforma para monitoramenteo climático;
 - [Google Firebase](https://firebase.google.com/docs/auth) Como ferramente de gerenciamento de Autenticação de usuários;
-- [Google Firestore](https://firebase.google.com/docs/firestore) Como banco de dados em nuvem;
+
   
