@@ -9,7 +9,7 @@ A new Flutter project.
 - Acessar plataforma de Estação Meteorológica para exibir informações de dados disponpíveis de um ponto de coleta;
 
 ## Fluxo de navegação
-
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/Navega%C3%A7%C3%A3o%20entre%20telas.png'>
 
 ## Tecnologias utilizadas
 - [Flutter ](https://flutter.dev/) Para criação do Aplicativo para plataforma Android
