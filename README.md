@@ -25,7 +25,7 @@ Abaixo segue fluxo de navegação entre telas do App:
 ## Árvore de Widgets
 
 - SignInPage:
-<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/SignInPage_widgets.png>
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/SignInPage_widgets.png'>
 
 ## Tecnologias utilizadas
 - [Flutter ](https://flutter.dev/) Framework para criação do Aplicativo para plataforma Android
