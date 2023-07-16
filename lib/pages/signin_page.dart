@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:watercontrol/pages/home_page.dart';
+import 'package:aquacontrol/pages/home_page.dart';
 
 import '../services/preferencias.dart';
 import '../services/firebase.dart';

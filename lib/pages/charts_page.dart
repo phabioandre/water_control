@@ -6,11 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
-import 'package:watercontrol/pages/signin_page.dart';
+import 'package:aquacontrol/pages/signin_page.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xcel;
 import '../services/preferencias.dart';
 import 'home_page.dart';
-import 'online_Page.dart';
 import 'package:share/share.dart';
 import 'package:intl/intl.dart';
 
@@ -30,7 +29,6 @@ class ChartData {
 class _ChartPageState extends State<ChartPage> {
   @override
   void dispose() {
-    // fecha websocket
     super.dispose();
   }
 
@@ -54,21 +52,9 @@ class _ChartPageState extends State<ChartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Water Control",
+            title: const Text("Aqua Control",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             actions: <Widget>[
-              IconButton(
-                  icon: const Icon(
-                    Icons.home_filled,
-                    //color: Colors.red,
-                  ),
-                  tooltip: 'Ir para Home',
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                  }), //IconButton
               IconButton(
                 icon: const Icon(
                   Icons.share,
@@ -80,19 +66,7 @@ class _ChartPageState extends State<ChartPage> {
                       chartDataTemperatura);
                 },
               ), //IconButton
-              IconButton(
-                icon: const Icon(
-                  Icons.broadcast_on_personal,
-                  //color: Colors.greenAccent,
-                ),
-                tooltip: 'Dados em Tempo Real',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OnLinePage()));
-                },
-              ), //IconButton
+
               IconButton(
                 icon: const Icon(Icons.logout),
                 tooltip: 'Realizar Logout',
@@ -112,17 +86,16 @@ class _ChartPageState extends State<ChartPage> {
           // height: MediaQuery.of(context).size.height,
           child: Column(children: <Widget>[
             graficoDeLinha(chartDataOxigenio,
-                'Viveiro - Oxigênio dissolvido  (mg/L)', 'OD', 0.0, 30.0),
-            const SizedBox(
-              height: 5,
-            ),
-            graficoDeLinha(
-                chartDataph, 'Viveiro - Nível de ph', 'ph', 0.0, 15.0),
+                'Viveiro - Oxigênio dissolvido  (mg/L)', 'OD', 0.0, 14.0),
             const SizedBox(
               height: 5,
             ),
             graficoDeLinha(chartDataTemperatura, 'Viveiro - Temperatura (°C)',
                 '°C', 0.0, 50.0),
+            const SizedBox(
+              height: 5,
+            ),
+            graficoDeLinha(chartDataph, 'Viveiro - pH', 'pH', 0.0, 14.0),
           ]),
         ));
   }
@@ -140,7 +113,7 @@ SfCartesianChart graficoDeLinha(List<ChartData> dados, String tituloDoGrafico,
       series: <ChartSeries<ChartData, DateTime>>[
         // Renders line chart
         LineSeries<ChartData, DateTime>(
-            animationDuration: 1000,
+            animationDuration: 9000,
             name: grandezaMedida,
             // dataLabelSettings: DataLabelSettings(isVisible: true),
             dataSource: dados,
@@ -177,8 +150,6 @@ Future<List<ChartData>> recebeDados(String serieDeDados) async {
       "https://thingsboard.smartrural.com.br:443/api/plugins/telemetry/DEVICE/$tokenDispositivoTB/values/timeseries");
   url = url.replace(queryParameters: parametros);
 
-  // var url = Uri.parse(
-  //     'https://thingsboard.smartrural.com.br:443/api/plugins/telemetry/DEVICE/94446860-295a-11ed-bf91-e96cef9e8ef0/values/timeseries?keys=oxygen&startTs=1686505742764&endTs=1686509342764&limit=100&agg=NONE');
   var headers = {
     'X-Authorization': tokenUsuarioTB.toString(),
     'accept': 'application/json',
@@ -211,7 +182,7 @@ CompartilhaExcel(BuildContext context, dadoOD, dadoPh, dadoTemp) async {
   final xcel.Worksheet sheetTemp = workbook.worksheets[2];
 
   sheetOD.name = 'OD';
-  sheetPh.name = 'Ph';
+  sheetPh.name = 'pH';
   sheetTemp.name = 'Temperatura';
 
   int i = 1;

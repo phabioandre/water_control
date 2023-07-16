@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "779617837425",
-    "project_id": "watercontrol-b851c",
-    "storage_bucket": "watercontrol-b851c.appspot.com"
+    "project_id": "aquacontrol-b851c",
+    "storage_bucket": "aquacontrol-b851c.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:779617837425:android:b3ca13794b95a2625b96d0",
         "android_client_info": {
-          "package_name": "com.example.watercontrol"
+          "package_name": "br.ufrpe.ppgia.aquacontrol"
         }
       },
       "oauth_client": [

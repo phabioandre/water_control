@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:watercontrol/pages/signin_page.dart';
+import 'package:aquacontrol/pages/signin_page.dart';
 
 import 'services/firebase.dart';
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Water Control',
+      title: 'Aqua Control',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 3, 22, 131)),

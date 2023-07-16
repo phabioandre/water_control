@@ -6,10 +6,12 @@ import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:vibration/vibration.dart';
-import 'package:watercontrol/pages/signin_page.dart';
-import 'package:watercontrol/services/preferencias.dart';
+import 'package:aquacontrol/pages/signin_page.dart';
+import 'package:aquacontrol/services/preferencias.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../services/beweather.dart';
+import 'bewather_page.dart';
 import 'charts_page.dart';
 import 'home_page.dart';
 
@@ -102,30 +104,22 @@ class _OnLinePageState extends State<OnLinePage> {
   @override
   Widget build(BuildContext context) {
     criaWebSocket();
+    BeWeatherPlataform.recebeDados();
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Water Control",
+          title: const Text("Aqua Control",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           actions: <Widget>[
             IconButton(
-                icon: const Icon(
-                  Icons.home_filled,
-                  //color: Colors.red,
-                ),
-                tooltip: 'Ir para Home',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
-                }), //IconButton
-            const IconButton(
-              icon: Icon(
-                Icons.share,
-                //color: Colors.red,
-              ),
-              tooltip: 'Compartilhar dados em Excel',
-              onPressed: null,
+              icon: const Icon(Icons.sunny),
+              tooltip: 'Estação Meterológica',
+              onPressed: () async {
+                channel.sink.close();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BeWeatherPage()));
+              },
             ), //IconButton
             IconButton(
               icon: const Icon(
@@ -134,14 +128,16 @@ class _OnLinePageState extends State<OnLinePage> {
               ),
               tooltip: 'Dados Históricos',
               onPressed: () {
+                channel.sink.close();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const ChartPage()));
               },
-            ), //IconButton
+            ),
             IconButton(
               icon: const Icon(Icons.logout),
               tooltip: 'Realizar Logout',
               onPressed: () {
+                channel.sink.close();
                 FirebaseAuth.instance.signOut().then((value) => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -175,7 +171,7 @@ class _OnLinePageState extends State<OnLinePage> {
               makeDashboardItem(
                   'Temperatura', _valueTemperatura, '°C', 0, 50, 20, 30, 5),
               const Text(
-                'Ph',
+                'pH',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -199,13 +195,13 @@ Card makeDashboardItem(
     double intervalo) {
   return Card(
     elevation: 1.0,
-    margin: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+    margin: const EdgeInsets.fromLTRB(30, 3, 30, 3),
     child: Container(
       decoration: const BoxDecoration(color: Color.fromRGBO(243, 246, 250, 1)),
       // height: 400,
       child: Align(
         alignment: Alignment.bottomCenter,
-        heightFactor: 0.60,
+        heightFactor: 0.55,
         child: SfRadialGauge(
             //  title: GaugeTitle(
             //      text: titulo,
@@ -254,7 +250,7 @@ Card makeDashboardItem(
                     GaugeAnnotation(
                         widget: Text('$valorMedido $unidadeMedida',
                             style: const TextStyle(
-                              fontSize: 15,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             )),
                         angle: 90,

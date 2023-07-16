@@ -1,4 +1,4 @@
-package com.example.watercontrol
+package br.ufrpe.ppgia.aquacontrol
 
 import io.flutter.embedding.android.FlutterActivity
 
