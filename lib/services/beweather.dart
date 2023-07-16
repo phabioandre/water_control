@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:aquacontrol/services/firebase.dart';
+
 import 'preferencias.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,8 +65,8 @@ class BeWeatherPlataform {
     };
     // Payload da requisição de Autenticação
     final msg = jsonEncode({
-      "username": "ufrpe.mctic.iot.turismo@gmail.com",
-      "password": "Ufrpe@iot21"
+      "username": "$DBFirestore.getBWUser()",
+      "password": "$DBFirestore.getBWUser()"
     });
 
     try {
@@ -75,6 +77,7 @@ class BeWeatherPlataform {
         // Armazena o token de usuário que foi concedido para a sessão iniciada
         DadosUsuario.setUserBeWeatherToken(jsonDecode(resposta.body)['token']);
         DadosUsuario.setBWConnected(true);
+        BeWeatherPlataform.recebeDados();
         return true;
       } else {
         // para qualquer outro resultado de resposta, Autorização não foi concedida

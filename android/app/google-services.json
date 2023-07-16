@@ -1,15 +1,44 @@
 {
   "project_info": {
     "project_number": "779617837425",
-    "project_id": "aquacontrol-b851c",
-    "storage_bucket": "aquacontrol-b851c.appspot.com"
+    "project_id": "watercontrol-b851c",
+    "storage_bucket": "watercontrol-b851c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:779617837425:android:b3ca13794b95a2625b96d0",
+        "mobilesdk_app_id": "1:779617837425:android:c596a0a54d9943135b96d0",
         "android_client_info": {
           "package_name": "br.ufrpe.ppgia.aquacontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779617837425-pvpk64cg3tbmcounmvvse01suim9bubf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsMn3Xl8hPoePt98jcZNYzZwonUYXXDdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779617837425-pvpk64cg3tbmcounmvvse01suim9bubf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779617837425:android:b3ca13794b95a2625b96d0",
+        "android_client_info": {
+          "package_name": "com.example.watercontrol"
         }
       },
       "oauth_client": [

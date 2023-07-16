@@ -1,8 +1,12 @@
 import 'dart:convert';
+import 'firebase.dart';
 import 'preferencias.dart';
 import 'package:http/http.dart' as http;
 
 class ThingsboardPlataform {
+  static String username = '';
+  static String pass = '';
+
   static Future<bool> login() async {
     // URL de acesso à plataforma thingsboard
     var url =
@@ -13,8 +17,12 @@ class ThingsboardPlataform {
       'accept': 'application/json'
     };
     // Payload da requisição de Autenticação
-    final msg = jsonEncode(
-        {"username": "phabioandre@gmail.com", "password": "TeStE135246"});
+    username = DBFirestore.getTBUser();
+
+    final msg = jsonEncode({
+      "username": "$DBFirestore.getTBUser()",
+      "password": "$DBFirestore.getTBPass()"
+    });
 
     try {
       var resposta = await http.post(url, body: msg, headers: headers);

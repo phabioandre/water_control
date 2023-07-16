@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    DBFirestore.getData();
     ThingsboardPlataform.login();
     BeWeatherPlataform.login();
   }
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.history,
                 //color: Colors.red,
               ),
-              tooltip: 'Dados históricos',
+              tooltip: 'Histórico de Leituras',
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const ChartPage()));
@@ -164,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                         Icons.history,
                         size: 100,
                       ),
-                      Text('Dados Históricos'),
+                      Text('Histórico de Leituras'),
                     ],
                   ),
                   onPressed: () {
