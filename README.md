@@ -27,6 +27,9 @@ Abaixo segue fluxo de navegação entre telas do App:
 - SignInPage:
 <img src='https://github.com/phabioandre/water_control/blob/main/assets/images/SignInPage_widgets.png'>
 
+- HomePage:
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/HomePage_widgets.png'>
+
 ## Tecnologias utilizadas
 - [Flutter ](https://flutter.dev/) Framework para criação do Aplicativo para plataforma Android
 - [Dart](https://dart.dev/) Linguagem de Programação utilizada para desenvolvimento do App
