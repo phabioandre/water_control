@@ -24,7 +24,7 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 O logotipo escolhido é o que aparece no topo da página para ilustrar a introdução relativa ao Aplicativo. O ícone abaixo foi escolhido para ser utilziado na distribuição da Aplicação.
 
 <p align="center">
-<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/icone.png'>
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/icone.png' width=10% height=10%>>
 </p>
 
 ## Fluxo de navegação de telas
