@@ -64,8 +64,8 @@ class BeWeatherPlataform {
     };
     // Payload da requisição de Autenticação
     final msg = jsonEncode({
-      "username": "ufrpe.mctic.iot.turismo@gmail.com",
-      "password": "Ufrpe@iot21"
+      "username": "",
+      "password": ""
     });
 
     try {

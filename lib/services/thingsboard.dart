@@ -19,8 +19,7 @@ class ThingsboardPlataform {
     // Payload da requisição de Autenticação
     username = DBFirestore.getTBUser();
 
-    final msg = jsonEncode(
-        {"username": "phabioandre@gmail.com", "password": "TeStE135246"});
+    final msg = jsonEncode({"username": "", "password": ""});
 
     try {
       var resposta = await http.post(url, body: msg, headers: headers);
