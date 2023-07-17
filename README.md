@@ -13,7 +13,7 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 - Acessar plataforma de Estação Meteorológica para exibir informações de dados disponpíveis de um ponto de coleta;
 
 ## Links
-- [Link](www.youtube.com) Para apresentação do projeto
+- [Link](https://youtu.be/KxdTlqMCwuk) Para apresentação do Aplicativo
 - [Link](www.youtube.com) Para pitch do projeto
 - [Link](www.youtube.com) Para acesso ao App no Play Store
 
