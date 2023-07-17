@@ -20,6 +20,13 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 - [Link](https://youtu.be/Wns7OPwYEJk) Para vídeo de demonstração de uso do Aplicativo
 - (breve) Para acesso ao App no Play Store
 
+## Logo e ícones escolhidos
+O logotipo escolhido é o que aparece no topo da página para ilustrar a introdução relativa ao Aplicativo. O ícone abaixo foi escolhido para ser utilziado na distribuição da Aplicação.
+
+<p align="center">
+<img src='https://github.com/phabioandre/water_control/blob/main/assets/images/icone.png'>
+</p>
+
 ## Fluxo de navegação de telas
 Abaixo segue fluxo de navegação entre telas do App:
 <img src='https://github.com/phabioandre/water_control/blob/main/assets/images/Navega%C3%A7%C3%A3o%20entre%20telas.png'>
