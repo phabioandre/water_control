@@ -18,7 +18,6 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 ## Links
 - [Link](https://youtu.be/KxdTlqMCwuk) Para vídeo de apresentação e divulgação do Aplicativo
 - [Link](https://youtu.be/Wns7OPwYEJk) Para vídeo de demonstração de uso do Aplicativo
-- (breve) Para acesso ao App no Play Store
 
 ## Logo e ícones escolhidos
 O logotipo escolhido é o que aparece no topo da página para ilustrar a introdução relativa ao Aplicativo. O ícone abaixo foi escolhido para ser utilziado na distribuição da Aplicação.
