@@ -17,8 +17,8 @@ Este aplicativo, em versão beta, possui a finalidade de servir como resultado d
 
 ## Links
 - [Link](https://youtu.be/KxdTlqMCwuk) Para vídeo de apresentação e divulgação do Aplicativo
-- [Link](www.youtube.com) Para vídeo de demonstração de uso do Aplicativo
-- [Link](www.youtube.com) Para acesso ao App no Play Store
+- [Link](https://youtu.be/Wns7OPwYEJk) Para vídeo de demonstração de uso do Aplicativo
+- [Link]() Para acesso ao App no Play Store
 
 ## Fluxo de navegação de telas
 Abaixo segue fluxo de navegação entre telas do App:
